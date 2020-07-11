@@ -10,5 +10,5 @@ public interface UserService {
      * @param id
      * @return
      */
-    public User getUser(int id,String password);
+    public User login(int id,String password);
 }

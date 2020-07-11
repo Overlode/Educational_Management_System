@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class UserServiceImpl implements UserService{
     @Override
-    public User getUser(int id , String password) {
+    public User login(int id , String password) {
         User user = null;
         String sql = "SELECT * FROM student WHERE id=? AND password = ?";
         try(Connection conn = DataSourceUtils.getConnection();

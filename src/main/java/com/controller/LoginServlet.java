@@ -1,6 +1,8 @@
 package com.controller;
 
 
+import com.entity.Score;
+import com.entity.Student;
 import com.entity.User;
 
 import javax.servlet.ServletException;
@@ -9,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+
+import com.service.impl.StudentServiceImpl;
 import com.service.impl.UserServiceImpl;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -25,11 +30,16 @@ public class LoginServlet extends HttpServlet {
         String userName = req.getParameter("username");
         int id=Integer.parseInt(userName);
         String password = req.getParameter("password");
-        user=userService.getUser(id,password);
+        user=userService.login(id,password);
         String url= "/login";
         if(user!=null){
             if(user.getType()==1){
                 req.getSession().setAttribute("user", user);
+                StudentServiceImpl studentService = new StudentServiceImpl();
+                Student s=studentService.getStudent(id);
+                List<Score> scores = studentService.getScoreBySid(id);
+                req.getSession().setAttribute("scores", scores);
+                req.getSession().setAttribute("student", s);
                 url = "/home";
             }
         }
