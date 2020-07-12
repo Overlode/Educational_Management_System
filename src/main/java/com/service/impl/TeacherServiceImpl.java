@@ -19,7 +19,7 @@ public class TeacherServiceImpl implements TeacherService {
             st.setString(3, sex);
             st.setString(4, academy);
             st.setString(5, password);
-            st.executeQuery();
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

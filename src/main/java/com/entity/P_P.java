@@ -3,9 +3,9 @@ package com.entity;
 import java.util.Date;
 
 public class P_P {
-    Date date;
-    String detail;
-
+    private Date date;
+    private String detail;
+    private int type;
     public P_P(Date date, String detail) {
         this.date = date;
         this.detail = detail;
@@ -25,5 +25,13 @@ public class P_P {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

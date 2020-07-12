@@ -1,11 +1,11 @@
 package com.entity;
 
 public class Score {
-    int cid;
-    int sid;
-    double score;
-    String cName;
-    String sName;
+    private int cid;
+    private int sid;
+    private double score;
+    private String cName;
+    private String sName;
 
     public Score(int cid, int sid, double score) {
         this.cid = cid;

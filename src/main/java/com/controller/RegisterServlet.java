@@ -26,7 +26,7 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userName = req.getParameter("userName");
+        String userName = new String(req.getParameter("userName").getBytes("iso-8859-1"), "utf-8");
         String password = req.getParameter("password");
         int userId = Integer.parseInt(req.getParameter("userId"));
         String academy = "信息与计算机工程学院";
@@ -34,7 +34,7 @@ public class RegisterServlet extends HttpServlet {
         String url = "/register";
         if (req.getParameter("sex").equals("0")) sex = "男";
         else sex = "女";
-        switch (Integer.parseInt(req.getParameter("identity"))) {
+        switch (Integer.parseInt(req.getParameter("academy"))) {
             case 1:
                 academy = "信息与计算机工程学院";
                 break;
@@ -54,9 +54,7 @@ public class RegisterServlet extends HttpServlet {
         int identity = Integer.parseInt(req.getParameter("identity"));//1学生 2老师
         if (identity == 1) {
             if (studentService.register(userName, password, userId, sex, academy)) {
-                User u = new User(userId, userName, password, 1);
-                req.getSession().setAttribute("user", u);
-                url = "/home";
+                url = "/login";
             } else {
                 url = "/error";
             }
@@ -64,7 +62,7 @@ public class RegisterServlet extends HttpServlet {
             if (teacherService.register(userName, password, userId, sex, academy)) {
                 User u = new User(userId, userName, password, 2);
                 req.getSession().setAttribute("user", u);
-                url = "/home";
+                url = "/login";
             } else {
                 url = "/error";
             }

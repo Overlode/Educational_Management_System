@@ -1,9 +1,7 @@
 package com.controller;
 
 
-import com.entity.Score;
-import com.entity.Student;
-import com.entity.User;
+import com.entity.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,8 +36,12 @@ public class LoginServlet extends HttpServlet {
                 StudentServiceImpl studentService = new StudentServiceImpl();
                 Student s=studentService.getStudent(id);
                 List<Score> scores = studentService.getScoreBySid(id);
+                List<PassRequest> requests = studentService.getRequests(id);
+                List<P_P> pplist = studentService.getP_PBySid(id);
                 req.getSession().setAttribute("scores", scores);
                 req.getSession().setAttribute("student", s);
+                req.getSession().setAttribute("requests", requests);
+                req.getSession().setAttribute("pplist", pplist);
                 url = "/home";
             }
         }

@@ -1,10 +1,10 @@
 package com.entity;
 
 public class Student {
-    int id;
-    String name;
-    String sex;
-    String academy;
+    private int id;
+    private String name;
+    private String sex;
+    private String academy;
 
     public Student(int id, String name, String sex, String academy) {
         this.id = id;

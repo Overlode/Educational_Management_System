@@ -1,12 +1,12 @@
 package com.entity;
 
 public class Teacher {
-    int id;
-    String name;
-    String academy;
-    String sex;
-    String email;
-    String phone;
+    private int id;
+    private String name;
+    private String academy;
+    private String sex;
+    private String email;
+    private String phone;
 
     public Teacher(int id, String name, String academy, String sex) {
         this.id = id;

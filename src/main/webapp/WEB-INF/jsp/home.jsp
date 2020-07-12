@@ -51,7 +51,7 @@
 </head>
 
 
-<body style="background-image: url(../../image/1.jpg)">
+<body style="background-image: url(/assets/image/1.jpg)">
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation"
      style="background-color: steelblue">
     <!--container-fluid表示自适应大小，container表示居中-->
@@ -65,8 +65,8 @@
         <div class="collapse navbar-collapse" id="demo-navbar">
             <!--nav navbar-nav表示显示在导航栏里-->
             <ul class="nav navbar-nav">
-                <li style="background-color: dodgerblue;color: white"><a href="#" style="color: white">首页</a></li>
-                <li style="color: white"><a href="#" style="color: white">审核申请</a></li>
+                <li style="background-color: dodgerblue;color: white"><a href="/home" style="color: white">首页</a></li>
+                <li style="color: white"><a href="/application-student" style="color: white">审核申请</a></li>
             </ul>
         </div>
     </div>
@@ -85,19 +85,26 @@
                 <!-- 1 -->
                 <div class="panel panel-primary" style="opacity: 0.9;">
                     <div class="panel-heading">
-                        <h3 class="panel-title">最新提醒</h3>
+                        <h3 class="panel-title">毕业审核申请进度</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="alert alert-info" role="alert">
-                            <!-- strong用于加粗文字 -->
-                            <strong>提示</strong> 您的申请(20160001)已经审批通过
-                        </div>
-                        <div class="alert alert-danger" role="alert">
-                            <strong>提示</strong> 您的申请(20160002)被打回
-                        </div>
-                        <div class="alert alert-warning" role="alert">
-                            <strong>提示</strong> 您的申请(20160003)被打回
-                        </div>
+                        <c:forEach items="${requests}" var="r" varStatus="rs">
+                            <c:if test="${r.confirm==0}">
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>提示</strong> 您的申请(${r.id})被打回
+                                </div>
+                            </c:if>
+                            <c:if test="${r.confirm==1}">
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>提示</strong> 您的申请(${r.id})被打回
+                                </div>
+                            </c:if>
+                            <c:if test="${r.confirm==2}">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>提示</strong> 您的申请(${r.id})已经审批通过
+                                </div>
+                            </c:if>
+                        </c:forEach>
                     </div>
 
                 </div>
@@ -148,22 +155,29 @@
                     </div>
                     <div class="panel-body">
                         <table class="table">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>学科</th>
-                                <th>最终成绩</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${scores}" var="s" varStatus="vs">
+                            <c:if test="${scores.size()<1}">
                                 <tr>
-                                    <th>${vs.count}</th>
-                                    <th>${s.cName}</th>
-                                    <th>${s.score}</th>
+                                    <th>暂无个人成绩</th>
                                 </tr>
-                            </c:forEach>
-                            </tbody>
+                            </c:if>
+                            <c:if test="${scores.size()>=1}">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>学科</th>
+                                    <th>最终成绩</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${scores}" var="s" varStatus="vs">
+                                    <tr>
+                                        <th>${vs.count}</th>
+                                        <th>${s.cName}</th>
+                                        <th>${s.score}</th>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </c:if>
                         </table>
                     </div>
                 </div>
@@ -183,16 +197,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th>1</th>
-                                <th>事件1</th>
-                                <th>详细内容1</th>
-                            </tr>
-                            <tr>
-                                <th>2</th>
-                                <th>事件2</th>
-                                <th>详细内容2</th>
-                            </tr>
+                            <c:forEach items="${pplist}" var="s" varStatus="vs">
+                                <tr>
+                                    <th>${vs.count}</th>
+                                    <th>${s.date}</th>
+                                    <th>${s.detail}</th>
+                                </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                     </div>

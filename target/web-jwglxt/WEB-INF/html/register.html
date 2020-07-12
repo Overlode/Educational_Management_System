@@ -1,323 +1,334 @@
 <!doctype html>
 <html lang=en>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>注册
-		</title>
-		<script src="/assets/js/alert.js"></script>
-		<!-- Bootstrap -->
-		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.js"></script>
-		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-		<style>
-		
-			.bg{
-			        height: 600px;
-			        background-image:url(/assets/image/yzm.jpg);
-			        background-size: cover;
-			    }
-			
-			    .table{
-			        padding: 40px;
-			       margin-top: 100px;
-			       background: rgba(255,255,255,0.2);
-			    }
-			</style>
-		<script>
-			function checkusername(){//检验用户名
-				var username = document.getElementById("username");
-				var usernamespan =document.getElementById("usernamespan");
-				if(username.value==""){
-					usernamespan.innerHTML="<font color='red'>请输入姓名</font>"
-					return false;
-				}
-				var regex=/^[\u4e00-\u9fa5]+$/; 
-				if(!regex.test(username.value)){
-					usernamespan.innerHTML="<font color='red'>用户名不合法</font>";
-					return false;
-				}
-				usernamespan.innerHTML="<font color='green'>通过</font>";
-				return true;
-			}
-			function passwordblur(){//检验密码
-				var passwordid = document.getElementById("passwordid_1");
-				var passwordspan = document.getElementById("passwordspan_1");
-				if(passwordid.value==""){
-					passwordspan.innerHTML="<font color='red'>请输入密码</font>";
-					return false;
-				}
-				var regex_1=/^\w{5,}$/;
-				if(!regex_1.test(passwordid.value)){
-					passwordspan.innerHTML="<font color='red'>密码不合法</font>";
-					return false;
-				}
-				var regex_2=/^\d{5,}$/;
-				if(regex_2.test(passwordid.value)){
-					passwordspan.innerHTML="<font color='orange'>密码不安全，建议更换密码</font>";
-					return true;
-				}
-				var regex_3=/^[a-z|A-Z]{5,}$/;
-				if(regex_3.test(passwordid.value)){
-					passwordspan.innerHTML="<font color='orange'>密码不安全，建议更换密码</font>";
-					return true;
-				}
-				passwordspan.innerHTML="<font color='green'>密码安全</font>";
-				return true;
-			}
-			function checkpassword(){//确认密码
-				var passwordid_1=document.getElementById("passwordid_1");
-				var passwordid_2=document.getElementById("passwordid_2");
-				var passwordspan=document.getElementById("passwordspan_2");
-				if(passwordid_2.value==""){
-					passwordspan.innerHTML="<font color='red'>请输入密码</font>";
-					return false;
-				}
-				if(!(passwordid_1.value==passwordid_2.value)){
-					passwordspan.innerHTML="<font color='red'>密码错误，请重新输入</font>";
-					return false;
-				}
-				passwordspan.innerHTML="<font color='green'>密码正确</font>";
-				return true;
-			}
-			function checkemail(){//检验邮箱
-				var emmailid =document.getElementById("emailid");
-				var emailspan =document.getElementById("emailispan");
-				if(emailid.value==""){
-					emailspan.innerHTML="<font color='red'>请输入邮箱地址</font>";
-					return false;
-				}
-				var regex =/^([a-zA-Z0-9])+@([a-zA-Z0-9])+((\.[a-zA-Z0-9_-]{2,3}){1,2})/;
-				if(!regex.test(emmailid.value)){
-					emailspan.innerHTML="<font color='red'>邮箱地址不合法</font>";
-					return false;
-				}
-				emailspan.innerHTML="<font color='green'>邮箱地址通过</font>";
-				return true;
-			}
-			function checkstnumber(){//检验学号/教师号
-				var stnumberid =document.getElementById("stnumber");
-				var stnumberspan =document.getElementById("stnumberspan");
-				if(stnumberid.value==""){
-					stnumberspan.innerHTML="<font color='red'>请输入学号/教师号</font>";
-					return false;
-				}
-				var regex =/^\d{6,}/;
-				if(!regex.test(stnumberid.value)){
-					stnumberspan.innerHTML="<font color='red'>学号/教师号不合法</font>";
-					return false;
-				}
-				stnumberspan.innerHTML="<font color='green'>学号/教师号通过</font>";
-				return true;
-			}
-			function checksex(){//检验性别
-				var sexs =document.getElementsByName("sex");
-				var sexspan = document.getElementById("sexspan");
-				var flag =true;
-				for(var i=0;i<sexs.length;i++){
-					if(sexs[i].checked){
-						flag=false;
-						break;
-					}
-				}
-				if(flag){
-					sexspan.innerHTML="<font color='red'>请选择性别</font>"
-					return false;
-				}
-				sexspan.innerHTML="<font color='green'>性别选择成功</font>"
-				return true;
-			}
-			function checkidentity(){//检验身份
-				var identity = document.getElementById("identity");
-				var identityspan = document.getElementById("identityspan");
-				if(identity.value==""){
-					identityspan.innerHTML="<font color='red'>请选择身份类别</font>"
-					return false;
-				}
-				identityspan.innerHTML="<font color='green'>身份类别选择完毕</font>"
-				return true;
-			}
-			function checkmajor(){//检验学院
-				var major = document.getElementById("major");
-				var majorspan = document.getElementById("majorspan");
-				if(major.value==""){
-					majorspan.innerHTML="<font color='red'>请选择学院</font>"
-					return false;
-				}
-				majorspan.innerHTML="<font color='green'>学院选择成功</font>";
-				return true;
-			}
-			function checkrule(){
-				var rule = document.getElementById("rule");
-				flag =true;
-				if(rule.checked){
-					flag=false;
-				}
-				if(flag){
-					rulespan.innerHTML="<font color='red'>必须同意条款</font>"
-					return false;
-				}
-				return true;
-			}
-			function buttonclick(){
-				if(checkusername()&passwordblur()&checkpassword()&checkemail()&checkstnumber()
-				&checksex()&checkidentity()&checkmajor()&checkrule()){
-					window.location.href="../css/index.html";
-					return true;
-				}
-				alert("请填写全部信息");
-				return false;
-			}
-			</script>
-	</head>
-	<body>
-		<div class="container-fluid">
-			<div class="row bg">
-				<div class="col-md-offset-6 col-md-4 col-sm-offset-3 col-sm-7 col-xs-offset-2 col-xs-8 col-lg-offset-2 col-lg-3 table">
-					<form action="/testr" method="post">
-						<table class="col-sm-8" id="register">
-							<tr>
-								<td align="right" class="col-sm-4">
-									<font color="#ff0000">*</font>用户名：
-								</td>
-								<td>
-									<input type="text" id="username" class="col-sm-6" onblur="checkusername()" name="userName">
-									<span id="usernamespan"></span>
-								</td>
-								</span>
-							</tr>
-							<tr>
-								<td></td>
-								<td align="top">
-									<font disabled color="#d6d6d6" size="1">(请输入中文姓名)</font>
-									<br>
-								</td>
-							</tr>
-							<tr>
-								<td align="right" class="col-sm-4">
-									<font color="#ff0000">*</font>密码：
-								</td>
-								<td>
-									<input type="password" id="passwordid_1" class="col-sm-6" onblur="passwordblur()" name="password">
-									<span id="passwordspan_1"></span>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td align="top">
-									<font disabled color="#d6d6d6" size="1">(建议使用字符+数字等多种不同类型的组合，并且密码长度大于5位。)</font>
-									<br>
-								</td>
-							</tr>
-							<tr>
-								<td align="right" class="col-sm-4">
-									<font color="#ff0000">*</font>再次输入密码：
-								</td>
-								<td>
-									<input type="password" id="passwordid_2" class="col-sm-6" onblur="checkpassword()">
-									<span id="passwordspan_2"></span>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td align="top">
-									<font disabled color="#d6d6d6" size="1">(确认密码输入正确。)</font>
-									<br>
-								</td>
-							</tr>
-							<tr>
-								<td align="right" class="col-sm-4">
-									<font color="#ff0000">*</font>学号/教师号：
-								</td>
-								<td>
-									<input id="stnumber" class="col-sm-6" onblur="checkstnumber()" name="userId">
-									<span id="stnumberspan"></span>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td align="top">
-									<font disabled color="#d6d6d6" size="1">(请输入6位以上纯数字)</font>
-									<br>
-								</td>
-							</tr>
-							<tr>
-								<td align="right" class="col-sm-4">
-									<font color="#ff0000">*</font>性别：
-								</td>
-								<td>
-									<input type="radio" name="sex" value="0" onblur="checksex()" checked>
-									男
-									<input type="radio" name="sex" value="1" onblur="checksex()">
-									女
-									&nbsp;&nbsp;<span id="sexspan"></span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<br />
-								</td>
-							</tr>
-							<tr>
-								<td align="right" class="col-sm-4">
-									<font color="#ff0000">*</font>身份：
-								</td>
-								<td>
-									<select id="identity" onblur="checkidentity()" name="identity">
-										<option value="1" selected>学生</option>
-										<option value="2">教师</option>
-									</select>
-									<span id="identityspan"></span>
-									<br>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<br />
-								</td>
-							</tr>
-							<tr>
-								<td align="right" class="col-sm-4">
-									<font color="#ff0000">*</font>所属学院：
-								</td>
-								<td>
-									<select id="major" onblur="checkmajor()" name="academy">
-										<option value="1" selected>信息与计算机工程学院</option>
-										<option value="2">文法学院</option>
-										<option value="3">理学院</option>
-										<option value="4">生命科学学院</option>
-										<option value="5">经济管理学院</option>
-									</select>
-									<span id="majorspan"></span>
-									<br>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<br />
-								</td>
-							</tr>
-							<tr>
-								<td align="right" color="red" class="col-sm-4">
-									<font color="#ff0000">*</font>注册条款：
-								</td>
-								<td>
-									<input type="checkbox" id="rule" onblur="checkrule()">
-									我已仔细阅读并接受<a href="www.baidu.com">教务管理系统注册条款</a>。
-									<span id="rulespan"></span>
-								</td>
-							</tr>
-							<tr>
-								<td><br></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><input type="submit" class="col-sm-4 col-sm-offset-1" value="注册" onclick="buttonclick()"></td>
-							</tr>
-						</table>
-					</form>
-				</div>
-			</div>
-		</div>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册
+    </title>
+    <script src="/assets/js/alert.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        .bg {
+            height: 600px;
+            background-image: url(/assets/image/yzm.jpg);
+            background-size: cover;
+        }
+
+        .table {
+            padding: 40px;
+            margin-top: 100px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    <script>
+        function checkusername() {//检验用户名
+            var username = document.getElementById("username");
+            var usernamespan = document.getElementById("usernamespan");
+            if (username.value == "") {
+                usernamespan.innerHTML = "<font color='red'>请输入姓名</font>"
+                return false;
+            }
+            var regex = /^[\u4e00-\u9fa5]+$/;
+            if (!regex.test(username.value)) {
+                usernamespan.innerHTML = "<font color='red'>用户名不合法</font>";
+                return false;
+            }
+            usernamespan.innerHTML = "<font color='green'>通过</font>";
+            return true;
+        }
+
+        function passwordblur() {//检验密码
+            var passwordid = document.getElementById("passwordid_1");
+            var passwordspan = document.getElementById("passwordspan_1");
+            if (passwordid.value == "") {
+                passwordspan.innerHTML = "<font color='red'>请输入密码</font>";
+                return false;
+            }
+            var regex_1 = /^\w{5,}$/;
+            if (!regex_1.test(passwordid.value)) {
+                passwordspan.innerHTML = "<font color='red'>密码不合法</font>";
+                return false;
+            }
+            var regex_2 = /^\d{5,}$/;
+            if (regex_2.test(passwordid.value)) {
+                passwordspan.innerHTML = "<font color='orange'>密码不安全，建议更换密码</font>";
+                return true;
+            }
+            var regex_3 = /^[a-z|A-Z]{5,}$/;
+            if (regex_3.test(passwordid.value)) {
+                passwordspan.innerHTML = "<font color='orange'>密码不安全，建议更换密码</font>";
+                return true;
+            }
+            passwordspan.innerHTML = "<font color='green'>密码安全</font>";
+            return true;
+        }
+
+        function checkpassword() {//确认密码
+            var passwordid_1 = document.getElementById("passwordid_1");
+            var passwordid_2 = document.getElementById("passwordid_2");
+            var passwordspan = document.getElementById("passwordspan_2");
+            if (passwordid_2.value == "") {
+                passwordspan.innerHTML = "<font color='red'>请输入密码</font>";
+                return false;
+            }
+            if (!(passwordid_1.value == passwordid_2.value)) {
+                passwordspan.innerHTML = "<font color='red'>密码错误，请重新输入</font>";
+                return false;
+            }
+            passwordspan.innerHTML = "<font color='green'>密码正确</font>";
+            return true;
+        }
+
+        function checkemail() {//检验邮箱
+            var emmailid = document.getElementById("emailid");
+            var emailspan = document.getElementById("emailispan");
+            if (emailid.value == "") {
+                emailspan.innerHTML = "<font color='red'>请输入邮箱地址</font>";
+                return false;
+            }
+            var regex = /^([a-zA-Z0-9])+@([a-zA-Z0-9])+((\.[a-zA-Z0-9_-]{2,3}){1,2})/;
+            if (!regex.test(emmailid.value)) {
+                emailspan.innerHTML = "<font color='red'>邮箱地址不合法</font>";
+                return false;
+            }
+            emailspan.innerHTML = "<font color='green'>邮箱地址通过</font>";
+            return true;
+        }
+
+        function checkstnumber() {//检验学号/教师号
+            var stnumberid = document.getElementById("stnumber");
+            var stnumberspan = document.getElementById("stnumberspan");
+            if (stnumberid.value == "") {
+                stnumberspan.innerHTML = "<font color='red'>请输入学号/教师号</font>";
+                return false;
+            }
+            var regex = /^\d{6,}/;
+            if (!regex.test(stnumberid.value)) {
+                stnumberspan.innerHTML = "<font color='red'>学号/教师号不合法</font>";
+                return false;
+            }
+            stnumberspan.innerHTML = "<font color='green'>学号/教师号通过</font>";
+            return true;
+        }
+
+        function checksex() {//检验性别
+            var sexs = document.getElementsByName("sex");
+            var sexspan = document.getElementById("sexspan");
+            var flag = true;
+            for (var i = 0; i < sexs.length; i++) {
+                if (sexs[i].checked) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                sexspan.innerHTML = "<font color='red'>请选择性别</font>"
+                return false;
+            }
+            sexspan.innerHTML = "<font color='green'>性别选择成功</font>"
+            return true;
+        }
+
+        function checkidentity() {//检验身份
+            var identity = document.getElementById("identity");
+            var identityspan = document.getElementById("identityspan");
+            if (identity.value == "") {
+                identityspan.innerHTML = "<font color='red'>请选择身份类别</font>"
+                return false;
+            }
+            identityspan.innerHTML = "<font color='green'>身份类别选择完毕</font>"
+            return true;
+        }
+
+        function checkmajor() {//检验学院
+            var major = document.getElementById("major");
+            var majorspan = document.getElementById("majorspan");
+            if (major.value == "") {
+                majorspan.innerHTML = "<font color='red'>请选择学院</font>"
+                return false;
+            }
+            majorspan.innerHTML = "<font color='green'>学院选择成功</font>";
+            return true;
+        }
+
+        function checkrule() {
+            var rule = document.getElementById("rule");
+            flag = true;
+            if (rule.checked) {
+                flag = false;
+            }
+            if (flag) {
+                rulespan.innerHTML = "<font color='red'>必须同意条款</font>"
+                return false;
+            }
+            return true;
+        }
+
+        function buttonclick() {
+            if (checkusername() & passwordblur() & checkpassword() & checkemail() & checkstnumber()
+                & checksex() & checkidentity() & checkmajor() & checkrule()) {
+                window.location.href = "../css/index.html";
+                return true;
+            }
+            alert("请填写全部信息");
+            return false;
+        }
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row bg">
+        <div class="col-md-offset-6 col-md-4 col-sm-offset-3 col-sm-7 col-xs-offset-2 col-xs-8 col-lg-offset-2 col-lg-3 table">
+            <form action="/register" method="post">
+                <table class="col-sm-8" id="register">
+                    <tr>
+                        <td align="right" class="col-sm-4">
+                            <font color="#ff0000">*</font>用户名：
+                        </td>
+                        <td>
+                            <input type="text" id="username" class="col-sm-6" onblur="checkusername()" name="userName">
+                            <span id="usernamespan"></span>
+                        </td>
+                        </span>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="top">
+                            <font disabled color="#d6d6d6" size="1">(请输入中文姓名)</font>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" class="col-sm-4">
+                            <font color="#ff0000">*</font>密码：
+                        </td>
+                        <td>
+                            <input type="password" id="passwordid_1" class="col-sm-6" onblur="passwordblur()"
+                                   name="password">
+                            <span id="passwordspan_1"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="top">
+                            <font disabled color="#d6d6d6" size="1">(建议使用字符+数字等多种不同类型的组合，并且密码长度大于5位。)</font>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" class="col-sm-4">
+                            <font color="#ff0000">*</font>再次输入密码：
+                        </td>
+                        <td>
+                            <input type="password" id="passwordid_2" class="col-sm-6" onblur="checkpassword()">
+                            <span id="passwordspan_2"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="top">
+                            <font disabled color="#d6d6d6" size="1">(确认密码输入正确。)</font>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" class="col-sm-4">
+                            <font color="#ff0000">*</font>学号/教师号：
+                        </td>
+                        <td>
+                            <input id="stnumber" class="col-sm-6" onblur="checkstnumber()" name="userId">
+                            <span id="stnumberspan"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="top">
+                            <font disabled color="#d6d6d6" size="1">(请输入6位以上纯数字)</font>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" class="col-sm-4">
+                            <font color="#ff0000">*</font>性别：
+                        </td>
+                        <td>
+                            <input type="radio" name="sex" value="0" onblur="checksex()" checked>
+                            男
+                            <input type="radio" name="sex" value="1" onblur="checksex()">
+                            女
+                            &nbsp;&nbsp;<span id="sexspan"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" class="col-sm-4">
+                            <font color="#ff0000">*</font>身份：
+                        </td>
+                        <td>
+                            <select id="identity" onblur="checkidentity()" name="identity">
+                                <option value="1" selected>学生</option>
+                                <option value="2">教师</option>
+                            </select>
+                            <span id="identityspan"></span>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" class="col-sm-4">
+                            <font color="#ff0000">*</font>所属学院：
+                        </td>
+                        <td>
+                            <select id="major" onblur="checkmajor()" name="academy">
+                                <option value="1" selected>信息与计算机工程学院</option>
+                                <option value="2">文法学院</option>
+                                <option value="3">理学院</option>
+                                <option value="4">生命科学学院</option>
+                                <option value="5">经济管理学院</option>
+                            </select>
+                            <span id="majorspan"></span>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" color="red" class="col-sm-4">
+                            <font color="#ff0000">*</font>注册条款：
+                        </td>
+                        <td>
+                            <input type="checkbox" id="rule" onblur="checkrule()">
+                            我已仔细阅读并接受<a href="www.baidu.com">教务管理系统注册条款</a>。
+                            <span id="rulespan"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><br></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" class="col-sm-4 col-sm-offset-1" value="注册" onclick="buttonclick()">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
 </html>

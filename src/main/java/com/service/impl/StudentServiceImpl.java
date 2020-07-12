@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import com.entity.P_P;
+import com.entity.PassRequest;
 import com.entity.Score;
 import com.entity.Student;
 import com.service.StudentService;
@@ -55,7 +56,23 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<P_P> getP_PBySid(int sid) {
-        return null;
+        List<P_P> pplist = new ArrayList<>();
+        String sql = "select * from p_p where ppsid = ?";
+        P_P pp;
+        try (Connection conn = DataSourceUtils.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setInt(1, sid);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    pp = new P_P(rs.getDate("date"), rs.getString("detail"));
+                    pp.setType(rs.getInt("type"));
+                    pplist.add(pp);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pplist;
     }
 
     @Override
@@ -80,7 +97,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean register(String userName, String password, int userId, String sex, String academy) {
-        String sql = "Insert into student values(?,?,?,?,?)";
+        String sql = "Insert into student values(?,?,?,?,?)";//Insert into student values(2017212421,"林北王雷","男","理学院","123456")
         try (Connection conn = DataSourceUtils.getConnection();
              PreparedStatement st = conn.prepareStatement(sql);
         ) {
@@ -89,11 +106,32 @@ public class StudentServiceImpl implements StudentService {
             st.setString(3, sex);
             st.setString(4, academy);
             st.setString(5, password);
-            st.executeQuery();
+            st.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
     }
+
+    @Override
+    public List<PassRequest> getRequests(int sid) {
+        List<PassRequest> requests = new ArrayList<>();
+        String sql = "select * from request where rsid = ?";
+        PassRequest pr;
+        try (Connection conn = DataSourceUtils.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setInt(1, sid);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    pr = new PassRequest(rs.getInt("confirm"), rs.getInt("rsid"), rs.getInt("count"));
+                    requests.add(pr);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
+
 }
