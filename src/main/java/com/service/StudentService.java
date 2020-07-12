@@ -10,4 +10,8 @@ public interface StudentService {
     public Student getStudent(int id);//获取学生数据
     public List<Score> getScoreBySid(int sid);
     public List<P_P> getP_PBySid(int sid);
+
+    public List<Score> getScoreByCid(int cid);
+
+    public boolean register(String userName, String password, int userId, String sex, String academy);
 }
