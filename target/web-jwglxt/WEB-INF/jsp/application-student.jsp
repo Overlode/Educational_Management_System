@@ -121,7 +121,7 @@
 <div class="bg">
     <div class="tableCenter"></div>
     <form action="/application-student" method="post">
-    <table class="table" id="application" width="60%" style="alignment: center" cellspacing="0" border="1px">
+        <table class="table" id="application" width="60%" style="alignment: center" cellspacing="0" border="1px">
         <caption>
             毕业申请
         </caption>
@@ -134,14 +134,16 @@
         <tr>
             <td width="40%" align="right">姓名：</td>
             <td>
-                <input type="username" style="width:70%;" id="username" onblur="checkusername()" name="userName" value="${user.userName}" readonly>
+                <input type="username" style="width:70%;" id="username" onblur="checkusername()" name="userName"
+                       value="${user.userName}" readonly>
                 <span id="usernamespan"></span>
             </td>
         </tr>
         <tr>
             <td width="40%" align="right">学号：</td>
             <td>
-                <input type="text" style="width:70%;" id="stnumber" onblur="checkstnumber()" name="userId" value="${user.id}" readonly>
+                <input type="text" style="width:70%;" id="stnumber" onblur="checkstnumber()" name="userId"
+                       value="${user.id}" readonly>
                 <span id="stnumberspan"></span>
             </td>
         </tr>

@@ -58,7 +58,7 @@
     <div class="container" style="margin-left: 8%;">
         <!--定义顶部导航栏-->
         <div class="navbar-header">
-            <a class="navbar-brand" style="color: white" href="#">U+教务管理系统</a>
+            <a class="navbar-brand" style="color: white" href="/main">U+教务管理系统</a>
         </div>
 
         <!--collapse用于导航栏折叠之后数据在button按钮里点击显示-->
@@ -90,12 +90,12 @@
                     <div class="panel-body">
                         <c:forEach items="${requests}" var="r" varStatus="rs">
                             <c:if test="${r.confirm==0}">
-                                <div class="alert alert-danger" role="alert">
-                                    <strong>提示</strong> 您的申请(${r.id})被打回
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>提示</strong> 您的申请(${r.id})等待审核中
                                 </div>
                             </c:if>
                             <c:if test="${r.confirm==1}">
-                                <div class="alert alert-warning" role="alert">
+                                <div class="alert alert-danger" role="alert">
                                     <strong>提示</strong> 您的申请(${r.id})被打回
                                 </div>
                             </c:if>

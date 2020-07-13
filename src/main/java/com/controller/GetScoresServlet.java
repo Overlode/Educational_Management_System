@@ -2,8 +2,7 @@ package com.controller;
 
 import com.entity.CommonExcel;
 import com.entity.Score;
-import com.service.StudentService;
-import com.service.impl.StudentServiceImpl;
+import com.service.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @WebServlet("/getscores")
 public class GetScoresServlet extends HttpServlet {
-    private StudentService studentService = new StudentServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,7 +25,7 @@ public class GetScoresServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String classId = req.getParameter("cid");
         int cid = Integer.parseInt(classId);
-        List<Score> scores = studentService.getScoreByCid(cid);
+        List<Score> scores = ServiceFactory.getStudentService().getScoreByCid(cid);
         String title = "成绩表";
         String[] rowsName = new String[]{"排名", "姓名", "学号", "成绩"};
         List<Object[]> dataList = new ArrayList<Object[]>();

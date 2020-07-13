@@ -136,6 +136,26 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<PassRequest> getAllRequests() {
+        List<PassRequest> requests = new ArrayList<>();
+        String sql = "select * from request";
+        PassRequest pr;
+        try (Connection conn = DataSourceUtils.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql)) {
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    pr = new PassRequest(rs.getInt("confirm"), rs.getInt("rsid"), rs.getInt("count"));
+                    pr.setEmail(rs.getString("email"));
+                    requests.add(pr);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return requests;
+    }
+
+    @Override
     public boolean updateRequest(int sid, String date, String email) {
         String sql = "Insert into request(rsid,date,email) values(?,?,?)";
         try (Connection conn = DataSourceUtils.getConnection();

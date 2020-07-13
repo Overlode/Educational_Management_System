@@ -7,6 +7,15 @@ public class Teacher {
     private String sex;
     private String email;
     private String phone;
+    private int core;
+
+    public int getCore() {
+        return core;
+    }
+
+    public void setCore(int core) {
+        this.core = core;
+    }
 
     public Teacher(int id, String name, String academy, String sex) {
         this.id = id;

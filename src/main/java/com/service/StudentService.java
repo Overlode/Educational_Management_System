@@ -19,5 +19,6 @@ public interface StudentService {
 
     public List<PassRequest> getRequests(int sid);
 
+    public List<PassRequest> getAllRequests();
     public boolean updateRequest(int sid, String date, String email);
 }

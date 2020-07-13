@@ -2,6 +2,7 @@ package com.controller;
 
 import com.entity.Teacher;
 import com.entity.User;
+import com.service.ServiceFactory;
 import com.service.StudentService;
 import com.service.TeacherService;
 import com.service.impl.StudentServiceImpl;
@@ -16,8 +17,6 @@ import java.io.IOException;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
-    private StudentService studentService = new StudentServiceImpl();
-    private TeacherService teacherService = new TeacherServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,13 +52,13 @@ public class RegisterServlet extends HttpServlet {
         }
         int identity = Integer.parseInt(req.getParameter("identity"));//1学生 2老师
         if (identity == 1) {
-            if (studentService.register(userName, password, userId, sex, academy)) {
+            if (ServiceFactory.getStudentService().register(userName, password, userId, sex, academy)) {
                 url = "/login";
             } else {
                 url = "/error";
             }
         } else if (identity == 2) {
-            if (teacherService.register(userName, password, userId, sex, academy)) {
+            if (ServiceFactory.getTeacherService().register(userName, password, userId, sex, academy)) {
                 User u = new User(userId, userName, password, 2);
                 req.getSession().setAttribute("user", u);
                 url = "/login";

@@ -11,12 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import com.service.impl.StudentServiceImpl;
-import com.service.impl.UserServiceImpl;
+import com.service.ServiceFactory;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
-    private UserServiceImpl userService = new UserServiceImpl();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/html/login.html").forward(req, resp);
@@ -28,22 +25,31 @@ public class LoginServlet extends HttpServlet {
         String userName = req.getParameter("username");
         int id=Integer.parseInt(userName);
         String password = req.getParameter("password");
-        user=userService.login(id,password);
+        user = ServiceFactory.getUserService().login(id, password);
         String url= "/login";
         if(user!=null){
-            if(user.getType()==1){
-                req.getSession().setAttribute("user", user);
-                StudentServiceImpl studentService = new StudentServiceImpl();
-                Student s=studentService.getStudent(id);
-                List<Score> scores = studentService.getScoreBySid(id);
-                List<PassRequest> requests = studentService.getRequests(id);
-                List<P_P> pplist = studentService.getP_PBySid(id);
+            req.getSession().setAttribute("user", user);
+            List<PassRequest> requests = null;
+            if (user.getType() == 1) {
+                requests = ServiceFactory.getStudentService().getRequests(id);
+                Student s = ServiceFactory.getStudentService().getStudent(id);
+                List<Score> scores = ServiceFactory.getStudentService().getScoreBySid(id);
+                List<P_P> pplist = ServiceFactory.getStudentService().getP_PBySid(id);
                 req.getSession().setAttribute("scores", scores);
                 req.getSession().setAttribute("student", s);
-                req.getSession().setAttribute("requests", requests);
                 req.getSession().setAttribute("pplist", pplist);
                 url = "/home";
+            } else if (user.getType() == 2 || user.getType() == 3) {
+                requests = ServiceFactory.getStudentService().getAllRequests();
+                int count = 0;
+                for (int i = 0; i < requests.size(); i++) {
+                    if (requests.get(i).getConfirm() == 0) count += 1;
+                }
+                req.getSession().setAttribute("teacher", ServiceFactory.getTeacherService().getTeacher(id));
+                req.getSession().setAttribute("requestCount", count);
+                url = "/teacher";
             }
+            req.getSession().setAttribute("requests", requests);
         }
         else{
             url = "/login";
