@@ -161,22 +161,22 @@
                                 </tr>
                             </c:if>
                             <c:if test="${scores.size()>=1}">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>学科</th>
-                                <th>最终成绩</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${scores}" var="s" varStatus="vs">
+                                <thead>
                                 <tr>
-                                    <th>${vs.count}</th>
-                                    <th>${s.cName}</th>
-                                    <th>${s.score}</th>
+                                    <th></th>
+                                    <th>学科</th>
+                                    <th>最终成绩</th>
                                 </tr>
-                            </c:forEach>
-                            </tbody>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${scores}" var="s" varStatus="vs">
+                                    <tr>
+                                        <th>${vs.count}</th>
+                                        <th>${s.cName}</th>
+                                        <th>${s.score}</th>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
                             </c:if>
                         </table>
                     </div>

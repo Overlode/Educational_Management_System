@@ -1,8 +1,14 @@
-<!doctype html>
-<html lang=en>
-
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2020-07-13
+  Time: 8:17
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
+    <title>毕业申请</title>
     <style type="text/css">
         * {
             margin: 0;
@@ -114,7 +120,8 @@
 <body>
 <div class="bg">
     <div class="tableCenter"></div>
-    <table class="table" id="application" width="60%" style="alignment: center" cellspacing="0" border="1px">
+    <form action="/application-student" method="post">
+        <table class="table" id="application" width="60%" style="alignment: center" cellspacing="0" border="1px">
         <caption>
             毕业申请
         </caption>
@@ -127,14 +134,16 @@
         <tr>
             <td width="40%" align="right">姓名：</td>
             <td>
-                <input type="username" style="width:70%;" id="username" onblur="checkusername()" name="userName">
+                <input type="username" style="width:70%;" id="username" onblur="checkusername()" name="userName"
+                       value="${user.userName}" readonly>
                 <span id="usernamespan"></span>
             </td>
         </tr>
         <tr>
             <td width="40%" align="right">学号：</td>
             <td>
-                <input type="password" style="width:70%;" id="stnumber" onblur="checkstnumber()" name="userId">
+                <input type="text" style="width:70%;" id="stnumber" onblur="checkstnumber()" name="userId"
+                       value="${user.id}" readonly>
                 <span id="stnumberspan"></span>
             </td>
         </tr>
@@ -151,14 +160,7 @@
                 所属学院：
             </td>
             <td>
-                <select id="major" onblur="checkmajor()">
-                    <option value="" disabled>请选择</option>
-                    <option value="1">信息与计算机工程学院</option>
-                    <option value="2">文法学院</option>
-                    <option value="3">理学院</option>
-                    <option value="4">生命科学学院</option>
-                    <option value="5">经济管理学院</option>
-                </select>
+                <input style="width:70%;" name="academy" value="${student.academy}" readonly>
                 <span id="majorspan"></span>
                 <br>
             </td>
@@ -178,6 +180,7 @@
         </th>
         </tfoot>
     </table>
+    </form>
 </div>
 </div>
 </body>

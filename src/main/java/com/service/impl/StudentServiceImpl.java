@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
@@ -132,6 +133,23 @@ public class StudentServiceImpl implements StudentService {
             e.printStackTrace();
         }
         return requests;
+    }
+
+    @Override
+    public boolean updateRequest(int sid, String date, String email) {
+        String sql = "Insert into request(rsid,date,email) values(?,?,?)";
+        try (Connection conn = DataSourceUtils.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql);
+        ) {
+            st.setInt(1, sid);
+            st.setString(2, date);
+            st.setString(3, email);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }

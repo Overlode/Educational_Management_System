@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.entity.P_P;
@@ -17,4 +18,6 @@ public interface StudentService {
     public boolean register(String userName, String password, int userId, String sex, String academy);
 
     public List<PassRequest> getRequests(int sid);
+
+    public boolean updateRequest(int sid, String date, String email);
 }
