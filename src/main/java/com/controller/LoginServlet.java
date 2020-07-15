@@ -29,30 +29,16 @@ public class LoginServlet extends HttpServlet {
         String url= "/login";
         if(user!=null){
             req.getSession().setAttribute("user", user);
-            List<PassRequest> requests = null;
             if (user.getType() == 1) {
-                requests = ServiceFactory.getStudentService().getRequests(id);
-                Student s = ServiceFactory.getStudentService().getStudent(id);
-                List<Score> scores = ServiceFactory.getStudentService().getScoreBySid(id);
-                List<P_P> pplist = ServiceFactory.getStudentService().getP_PBySid(id);
-                req.getSession().setAttribute("scores", scores);
-                req.getSession().setAttribute("student", s);
-                req.getSession().setAttribute("pplist", pplist);
                 url = "/home";
             } else if (user.getType() == 2 || user.getType() == 3) {
-                requests = ServiceFactory.getStudentService().getAllRequests();
-                int count = 0;
-                for (int i = 0; i < requests.size(); i++) {
-                    if (requests.get(i).getConfirm() == 0) count += 1;
-                }
-                req.getSession().setAttribute("teacher", ServiceFactory.getTeacherService().getTeacher(id));
-                req.getSession().setAttribute("requestCount", count);
                 url = "/teacher";
             }
-            req.getSession().setAttribute("requests", requests);
         }
         else{
-            url = "/login";
+            ErrorMessage errorMessage = new ErrorMessage("登录失败", "请检查帐号与密码", "Please check account and password");
+            req.getSession().setAttribute("errorMessage", errorMessage);
+            url = "/error";
         }
         resp.sendRedirect(url);
     }

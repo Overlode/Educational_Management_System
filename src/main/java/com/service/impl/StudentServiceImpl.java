@@ -1,9 +1,7 @@
 package com.service.impl;
 
-import com.entity.P_P;
-import com.entity.PassRequest;
-import com.entity.Score;
-import com.entity.Student;
+import com.entity.*;
+import com.service.ServiceFactory;
 import com.service.StudentService;
 import com.util.DataSourceUtils;
 
@@ -19,6 +17,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getStudent(int id) {
         Student s=null;
+        List<Score> list = getScoreBySid(id);
+        List<Course> courses = ServiceFactory.getTeacherService().getCourse();
+        double score = 0;
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < courses.size(); j++) {
+                if (list.get(i).getCid() == courses.get(j).getCid()) {
+                    if (list.get(i).getScore() >= 60) score += courses.get(j).getScore();
+                    break;
+                }
+            }
+        }
         String sql = "SELECT * FROM student WHERE id=?";
         try(Connection conn = DataSourceUtils.getConnection();
             PreparedStatement st = conn.prepareStatement(sql)) {
@@ -26,6 +35,7 @@ public class StudentServiceImpl implements StudentService {
             try(ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     s = new Student(rs.getInt("id"), rs.getString("name"),rs.getString("sex"),rs.getString("academy"));
+                    s.setScore(score);
                 }
             }
         } catch (SQLException e) {
@@ -77,12 +87,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Score> getScoreByCid(int cid) {
+    public List<Score> getScoreByCidClassId(int cid, int classId) {
         List<Score> scores = new ArrayList<>();
-        String sql = "SELECT score.ssid,score.score,student.name FROM score,student,s_c where score.scid=? and score.ssid=student.id and score.ssid=s_c.scsid and score.scid=s_c.sccid order by score.score desc";
+        String sql = "SELECT score.ssid,score.score,student.name FROM score,student,s_c where score.scid=? and score.ssid=student.id and score.ssid=s_c.scsid and score.scid=s_c.sccid and s_c.classid=? order by score.score desc";
         try (Connection conn = DataSourceUtils.getConnection();
              PreparedStatement st = conn.prepareStatement(sql)) {
             st.setInt(1, cid);
+            st.setInt(2, classId);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     Score s = new Score(cid, rs.getInt("ssid"), rs.getDouble("score"));
@@ -172,4 +183,70 @@ public class StudentServiceImpl implements StudentService {
         return true;
     }
 
+    @Override
+    public List<Score> newScores(int classId, int cid) {
+        List<Score> scores = new ArrayList<>();
+        String sql = "SELECT student.name,scsid,sccid FROM s_c,student where sccid=? and classid = ? and status=0 and scsid=id";
+        Score s;
+        try (Connection conn = DataSourceUtils.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql);
+        ) {
+            st.setInt(1, cid);
+            st.setInt(2, classId);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    s = new Score(cid, rs.getInt("scsid"), 0);
+                    s.setsName(rs.getString("name"));
+                    s.setClassId(classId);
+                    scores.add(s);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return scores;
+    }
+
+    @Override
+    public boolean uploadScore(int sid, int cid, double score) {
+        String sql = "insert into score(ssid,scid,score) values(?,?,?)";
+        String sqll = "update s_c set status = 1 where scsid = ? and status =0 and sccid = ?";
+        try (Connection conn = DataSourceUtils.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql);
+             PreparedStatement stt = conn.prepareStatement(sqll)
+        ) {
+            st.setInt(1, sid);
+            st.setInt(2, cid);
+            st.setDouble(3, score);
+            stt.setInt(1, sid);
+            stt.setInt(2, cid);
+            st.executeUpdate();
+            stt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public PassRequest getCurrentRequest(int sid) {
+        String sql = "select * from request where rsid = ? and confirm = 0";
+        PassRequest pr = null;
+        try (Connection conn = DataSourceUtils.getConnection();
+             PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setInt(1, sid);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    pr = new PassRequest(rs.getInt("confirm"), rs.getInt("rsid"), rs.getInt("count"));
+                    pr.setEmail(rs.getString("email"));
+                    pr.setDate(rs.getDate("date"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pr;
+    }
 }

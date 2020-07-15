@@ -1,10 +1,21 @@
 package com.entity;
 
+import java.util.Date;
+
 public class PassRequest {
     private int confirm;
     private int sid;
     private int id;
     private String email;
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getEmail() {
         return email;

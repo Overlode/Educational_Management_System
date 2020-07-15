@@ -6,6 +6,15 @@ public class Score {
     private double score;
     private String cName;
     private String sName;
+    private int classId;
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
 
     public Score(int cid, int sid, double score) {
         this.cid = cid;

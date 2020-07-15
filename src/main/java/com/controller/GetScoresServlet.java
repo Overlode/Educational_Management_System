@@ -23,9 +23,9 @@ public class GetScoresServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String classId = req.getParameter("cid");
-        int cid = Integer.parseInt(classId);
-        List<Score> scores = ServiceFactory.getStudentService().getScoreByCid(cid);
+        int cid = Integer.parseInt(req.getParameter("cid"));
+        int classId = Integer.parseInt(req.getParameter("classId"));
+        List<Score> scores = ServiceFactory.getStudentService().getScoreByCidClassId(cid, classId);
         String title = "成绩表";
         String[] rowsName = new String[]{"排名", "姓名", "学号", "成绩"};
         List<Object[]> dataList = new ArrayList<Object[]>();

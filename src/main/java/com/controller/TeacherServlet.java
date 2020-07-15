@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.entity.User;
 import com.service.ServiceFactory;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,13 @@ import java.io.IOException;
 public class TeacherServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int count = 0;
+        for (int i = 0; i < ServiceFactory.getStudentService().getAllRequests().size(); i++) {
+            if (ServiceFactory.getStudentService().getAllRequests().get(i).getConfirm() == 0) count += 1;
+        }
+        req.getSession().setAttribute("teacher", ServiceFactory.getTeacherService().getTeacher(((User) req.getSession().getAttribute("user")).getId()));
+        req.getSession().setAttribute("requestCount", count);
+        req.getSession().setAttribute("requests", ServiceFactory.getStudentService().getAllRequests());
         req.getRequestDispatcher("/WEB-INF/jsp/teacher.jsp").forward(req, resp);
     }
 

@@ -132,7 +132,7 @@
         </thead>
         <tbody>
         <tr>
-            <td width="40%" align="right">姓名：</td>
+            <td width="40%" align="right" style="color: white">姓名：</td>
             <td>
                 <input type="username" style="width:70%;" id="username" onblur="checkusername()" name="userName"
                        value="${user.userName}" readonly>
@@ -140,7 +140,7 @@
             </td>
         </tr>
         <tr>
-            <td width="40%" align="right">学号：</td>
+            <td width="40%" align="right" style="color: white">学号：</td>
             <td>
                 <input type="text" style="width:70%;" id="stnumber" onblur="checkstnumber()" name="userId"
                        value="${user.id}" readonly>
@@ -148,7 +148,7 @@
             </td>
         </tr>
         <tr>
-            <td width="40%" align="right">E-mail：
+            <td width="40%" align="right" style="color: white">E-mail：
             </td>
             <td>
                 <input type="email" style="width:70%;" id="emailid" onblur="checkemail()" name="email">
@@ -156,7 +156,7 @@
             </td>
         </tr>
         <tr>
-            <td width="40%" align="right">
+            <td width="40%" align="right" style="color: white">
                 所属学院：
             </td>
             <td>
@@ -166,7 +166,7 @@
             </td>
         </tr>
         <tr>
-            <td width="40%" align="right">申请时间：</td>
+            <td width="40%" align="right" style="color: white">申请时间：</td>
             <td>
                 <input type="date" style="width:70%;" id="submitdate" onblur="checksubmitdate()"
                        placeholder="输入格式:****-**-**" name="date">

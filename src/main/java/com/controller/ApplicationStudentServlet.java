@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.entity.ErrorMessage;
+import com.entity.User;
 import com.service.ServiceFactory;
 import com.service.StudentService;
 import com.service.impl.StudentServiceImpl;
@@ -15,16 +17,21 @@ import java.io.IOException;
 public class ApplicationStudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/application-student.jsp").forward(req, resp);
+        User user = (User) req.getSession().getAttribute("user");
+        if (user.getType() == 1) {
+            req.getRequestDispatcher("/WEB-INF/jsp/application-student.jsp").forward(req, resp);
+        } else {
+            ErrorMessage errorMessage = new ErrorMessage("权限不足", "请重新登录后再尝试", "You don't have permission to access the URL on this server.");
+            req.getSession().setAttribute("errorMessage", errorMessage);
+            req.getRequestDispatcher("/error").forward(req, resp);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userName = new String(req.getParameter("userName").getBytes("iso-8859-1"), "utf-8");
         int userId = Integer.parseInt(req.getParameter("userId"));
         String d = req.getParameter("date");
         String email = req.getParameter("email");
-        String academy = new String(req.getParameter("academy").getBytes("iso-8859-1"), "utf-8");
         String url;
         if (ServiceFactory.getStudentService().updateRequest(userId, d, email)) {
             url = "/home";

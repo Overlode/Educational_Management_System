@@ -67,6 +67,7 @@
             <ul class="nav navbar-nav">
                 <li style="background-color: dodgerblue;color: white"><a href="/home" style="color: white">首页</a></li>
                 <li style="color: white"><a href="/application-student" style="color: white">审核申请</a></li>
+                <li style="color: white"><a href="/infocard" style="color: white">个人学籍卡</a></li>
             </ul>
         </div>
     </div>
@@ -79,9 +80,7 @@
         <div class="col-md-10">
             <h2 style="color: steelblue">管理控制台</h2>
             <hr class="divider" style="background-color:steelblue;height:1.5px;border:none;">
-
             <div id="panel-group">
-
                 <!-- 1 -->
                 <div class="panel panel-primary" style="opacity: 0.9;">
                     <div class="panel-heading">
@@ -208,17 +207,9 @@
                         </table>
                     </div>
                 </div>
-
             </div>
-
-
         </div>
-
-
     </div>
-
-</div>
-
 </div>
 
 

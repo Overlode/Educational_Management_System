@@ -1,5 +1,8 @@
 package com.controller;
 
+import com.entity.Score;
+import com.service.ServiceFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,33 +12,25 @@ import javax.servlet.http.Part;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 @WebServlet("/uploadscores")
 public class UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/html/uploadFile.html").forward(req, resp);
+        req.getSession().setAttribute("scores", ServiceFactory.getStudentService().newScores(Integer.parseInt(req.getParameter("classId")), Integer.parseInt(req.getParameter("cid"))));
+        req.getRequestDispatcher("/WEB-INF/jsp/uploadscores.jsp").forward(req, resp);
     }
 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        Part part = req.getPart("myFile");
-        String disposition = part.getHeader("Content-Disposition");
-        String suffix = disposition.substring(disposition.lastIndexOf("."), disposition.length() - 1);
-        //随机的生存一个32的字符串
-        String filename = UUID.randomUUID() + suffix;
-        //获取上传的文件名
-        InputStream is = part.getInputStream();
-        //动态获取服务器的路径
-        String serverpath = req.getServletContext().getRealPath("upload");
-        FileOutputStream fos = new FileOutputStream(serverpath + "/" + filename);
-        byte[] bty = new byte[1024];
-        int length = 0;
-        while ((length = is.read(bty)) != -1) {
-            fos.write(bty, 0, length);
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Score> scores = (List<Score>) req.getSession().getAttribute("scores");
+        for (int i = 0; i < scores.size(); i++) {
+            String index = "scores[" + i + "].score";
+            double score = Double.parseDouble(req.getParameter(index));
+            ServiceFactory.getStudentService().uploadScore(scores.get(i).getSid(), scores.get(i).getCid(), score);
         }
-        fos.close();
-        is.close();
+        resp.sendRedirect("/scoremodel");
     }
 }

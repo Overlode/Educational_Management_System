@@ -7,53 +7,46 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<script type="text/javascript">
-    function disp_prompt() {
-        var name = prompt("请输入修改后的信息", "");
-        if (name != null && name != "") {
-            alert("当前输入的是：" + name);
+<head>
+    <title>U+教务管理系统</title>
+    <meta charset="utf-8">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 50px;
         }
-    }
-</script>
-<meta charset="utf-8">
-<title>U+教务管理系统</title>
-<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-    body {
-        margin-top: 50px;
-    }
+        .col-md-2 {
+            background-color: #ccc;
 
-    .col-md-2 {
-        background-color: #ccc;
+        }
 
-    }
+        #left-content {
+            margin-top: 20px;
+        }
 
-    #left-content {
-        margin-top: 20px;
-    }
+        .list-group {
+            padding-left: 0;
+        }
 
-    .list-group {
-        padding-left: 0;
-    }
+        #panel-group {
+            margin-top: 20px;
+        }
 
-    #panel-group {
-        margin-top: 20px;
-    }
+        #onebtn {
+            margin: 10px 0;
+        }
 
-    #onebtn {
-        margin: 10px 0;
-    }
+        #btngroup button {
+            width: 100%;
+        }
 
-    #btngroup button {
-        width: 100%;
-    }
+        .progress {
+            margin-top: 15px;
+        }
 
-    .progress {
-        margin-top: 15px;
-    }
-
-</style>
+    </style>
+</head>
 
 
 <body style="background-image: url(/assets/image/1.jpg)">
@@ -72,10 +65,10 @@
             <ul class="nav navbar-nav">
                 <li style="background-color: dodgerblue;color: white"><a href="/teacher" style="color: white">首页</a>
                 </li>
-                <li style="color: white"><a href="" style="color: white">审核管理</a></li>
-                <li style="color: white"><a href="#" style="color: white">学生奖惩</a></li>
-                <li style="color: white"><a href="#" style="color: white">课程安排</a></li>
-                <li style="color: white"><a href="#" style="color: white">学生成绩</a></li>
+                <li style="color: white"><a href="/teacher/application-list" style="color: white">审核管理</a></li>
+                <li style="color: white"><a href="/teacher/stu-list" style="color: white">学生奖惩</a></li>
+                <li style="color: white"><a href="/classroom" style="color: white">课程管理</a></li>
+                <li style="color: white"><a href="/scoremodel" style="color: white">学生成绩</a></li>
             </ul>
         </div>
     </div>
@@ -130,7 +123,6 @@
                                 </tr>
                                 <tr>
                                     <th>所属学院</th>
-                                    id
                                     <th><input type="text" value="${teacher.academy}" name="academy"></th>
                                 </tr>
                                 <tr>
@@ -150,6 +142,10 @@
                                     <th><input type="text" value="${teacher.phone}" name="phone"></th>
                                 </tr>
                                 <tr>
+                                    <th>权限</th>
+                                    <th>${user.type}</th>
+                                </tr>
+                                <tr>
                                     <th></th>
                                     <th>
                                         <button type="submit" class="btn btn-primary">点击修改个人信息</button>
@@ -163,7 +159,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 
